@@ -1,0 +1,44 @@
+CREATE TABLE users (
+  id SERIAL NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE struct_list (
+  id SERIAL NOT NULL UNIQUE,
+  title VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE users_lists (
+  id SERIAL NOT NULL UNIQUE,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+  list_id INT REFERENCES struct_list(id) ON DELETE CASCADE NOT NULL
+);
+
+CREATE TABLE struct_task (
+    id SERIAL NOT NULL UNIQUE,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    done BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE lists_task (
+    id SERIAL NOT NULL UNIQUE,
+    list_id INT REFERENCES struct_list(id) ON DELETE CASCADE NOT NULL,
+    task_id INT REFERENCES struct_task(id) ON DELETE CASCADE NOT NULL
+);
+
+CREATE TABLE struct_subtask (
+    id SERIAL NOT NULL UNIQUE,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    done BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE tasks_subtask (
+  id SERIAL NOT NULL UNIQUE,
+  task_id INT REFERENCES struct_task(id) ON DELETE CASCADE NOT NULL,
+  subtask_id INT REFERENCES struct_subtask(id) ON DELETE CASCADE NOT NULL
+);

@@ -2,7 +2,7 @@ package restful_api
 
 type User struct {
 	Id       int    `json:"-"`
-	Name     string `json:"firstname"`
+	Name     string `json:"name"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
