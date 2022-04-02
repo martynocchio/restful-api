@@ -1,8 +1,12 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+	restful_api "restful-api"
+)
 
 type Authorization interface {
+	CreateUser(user restful_api.User) (int, error)
 }
 
 type List interface {
@@ -22,5 +26,7 @@ type Repository struct {
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		Authorization: NewAuthPostgres(db),
+	}
 }

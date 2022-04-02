@@ -24,7 +24,7 @@ CREATE TABLE struct_task (
     done BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE lists_task (
+CREATE TABLE lists_tasks (
     id SERIAL NOT NULL UNIQUE,
     list_id INT REFERENCES struct_list(id) ON DELETE CASCADE NOT NULL,
     task_id INT REFERENCES struct_task(id) ON DELETE CASCADE NOT NULL
@@ -37,7 +37,7 @@ CREATE TABLE struct_subtask (
     done BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE tasks_subtask (
+CREATE TABLE tasks_subtasks (
   id SERIAL NOT NULL UNIQUE,
   task_id INT REFERENCES struct_task(id) ON DELETE CASCADE NOT NULL,
   subtask_id INT REFERENCES struct_subtask(id) ON DELETE CASCADE NOT NULL

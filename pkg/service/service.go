@@ -1,8 +1,12 @@
 package service
 
-import "restful-api/pkg/repository"
+import (
+	restful_api "restful-api"
+	"restful-api/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user restful_api.User) (int, error)
 }
 
 type List interface {
@@ -22,5 +26,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }

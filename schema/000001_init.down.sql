@@ -1,8 +1,8 @@
 DROP TABLE users_lists;
 
-DROP TABLE lists_task;
+DROP TABLE lists_tasks;
 
-DROP TABLE tasks_subtask;
+DROP TABLE tasks_subtasks;
 
 DROP TABLE users;
 
