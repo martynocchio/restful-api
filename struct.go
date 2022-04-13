@@ -1,8 +1,8 @@
 package restful_api
 
-type structList struct {
+type StructList struct {
 	Id          int    `json:"id"`
-	Title       string `json:"title"`
+	Title       string `json:"title" binding:"required"`
 	Description string `json:"description"`
 }
 
@@ -12,7 +12,7 @@ type UsersLists struct {
 	ListId int
 }
 
-type structTask struct {
+type StructTask struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -25,7 +25,7 @@ type ListsTask struct {
 	TaskId int
 }
 
-type structSubtask struct {
+type StructSubtask struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`

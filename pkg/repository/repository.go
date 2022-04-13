@@ -10,24 +10,26 @@ type Authorization interface {
 	GetUser(username, password string) (restful_api.User, error)
 }
 
-type List interface {
+type StructList interface {
+	Create(userId int, list restful_api.StructList) (int, error)
 }
 
-type Task interface {
+type StructTask interface {
 }
 
-type Subtask interface {
+type StructSubtask interface {
 }
 
 type Repository struct {
 	Authorization
-	List
-	Task
-	Subtask
+	StructList
+	StructTask
+	StructSubtask
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		StructList:    NewStructListPostgres(db),
 	}
 }

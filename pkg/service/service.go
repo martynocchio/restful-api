@@ -11,24 +11,26 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
-type List interface {
+type StructList interface {
+	Create(userId int, list restful_api.StructList) (int, error)
 }
 
-type Task interface {
+type StructTask interface {
 }
 
-type Subtask interface {
+type StructSubtask interface {
 }
 
 type Service struct {
 	Authorization
-	List
-	Task
-	Subtask
+	StructList
+	StructTask
+	StructSubtask
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		StructList:    NewStructListService(repos.StructList),
 	}
 }

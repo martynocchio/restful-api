@@ -3,10 +3,27 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	restful_api "restful-api"
 )
 
 func (h *Handler) createList(c *gin.Context) {
-	id, _ := c.Get(userCtx)
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	var input restful_api.StructList
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	id, err := h.services.StructList.Create(userId, input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": id,
 	})
