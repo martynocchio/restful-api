@@ -7,6 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user restful_api.User) (int, error)
+	GetUser(username, password string) (restful_api.User, error)
 }
 
 type List interface {
