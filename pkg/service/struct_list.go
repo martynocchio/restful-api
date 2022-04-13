@@ -20,3 +20,7 @@ func (s *StructListService) Create(userId int, list restful_api.StructList) (int
 func (s *StructListService) GetAll(userId int) ([]restful_api.StructList, error) {
 	return s.repo.GetAll(userId)
 }
+
+func (s *StructListService) GetById(userId, listId int) (restful_api.StructList, error) {
+	return s.repo.GetById(userId, listId)
+}
