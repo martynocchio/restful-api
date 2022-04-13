@@ -36,3 +36,13 @@ func (r *StructListPostgres) Create(userId int, list restful_api.StructList) (in
 
 	return id, tx.Commit()
 }
+
+func (r *StructListPostgres) GetAll(userId int) ([]restful_api.StructList, error) {
+	var lists []restful_api.StructList
+
+	query := fmt.Sprintf("SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1",
+		structListTable, usersListsTable)
+	err := r.db.Select(&lists, query, userId)
+
+	return lists, err
+}

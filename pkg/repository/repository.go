@@ -12,6 +12,7 @@ type Authorization interface {
 
 type StructList interface {
 	Create(userId int, list restful_api.StructList) (int, error)
+	GetAll(userId int) ([]restful_api.StructList, error)
 }
 
 type StructTask interface {
