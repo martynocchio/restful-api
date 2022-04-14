@@ -52,3 +52,17 @@ func (i UpdateListInput) Validate() error {
 
 	return nil
 }
+
+type UpdateTaskInput struct {
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+	Done        *bool   `json:"done"`
+}
+
+func (i UpdateTaskInput) Validate() error {
+	if i.Title == nil && i.Description == nil && i.Done == nil {
+		return errors.New("UPDATE STRUCTURE HAS NO VALUES")
+	}
+
+	return nil
+}

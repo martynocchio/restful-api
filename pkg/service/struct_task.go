@@ -37,3 +37,10 @@ func (s *StructTaskService) GetById(userId, taskId int) (restful_api.StructTask,
 func (s *StructTaskService) Delete(userId, taskId int) error {
 	return s.repo.Delete(userId, taskId)
 }
+
+func (s *StructTaskService) Update(userId, taskId int, input restful_api.UpdateTaskInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, taskId, input)
+}
