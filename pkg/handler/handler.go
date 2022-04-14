@@ -36,19 +36,25 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			{
 				tasks.POST("/", h.createTask)
 				tasks.GET("/", h.getAllTasks)
-				tasks.GET("/:task_id", h.getTaskById)
-				tasks.PUT("/:task_id", h.updateTask)
-				tasks.DELETE("/:task_id", h.deleteTask)
 
 				subtasks := tasks.Group(":task_id/subtasks")
 				{
 					subtasks.POST("/", h.createSubtask)
 					subtasks.GET("/", h.getAllSubtasks)
-					subtasks.GET("/:subtasks_id", h.getSubtaskById)
-					subtasks.PUT("/:subtask_id", h.updateSubtask)
-					subtasks.DELETE("/:subtask_id", h.deleteSubtask)
 				}
 			}
+		}
+		tasks := api.Group("tasks")
+		{
+			tasks.GET("/:id", h.getTaskById)
+			tasks.PUT("/:id", h.updateTask)
+			tasks.DELETE("/:id", h.deleteTask)
+		}
+		subtasks := api.Group("subtasks")
+		{
+			subtasks.GET("/:id", h.getSubtaskById)
+			subtasks.PUT("/:id", h.updateSubtask)
+			subtasks.DELETE("/:id", h.deleteSubtask)
 		}
 	}
 	return router

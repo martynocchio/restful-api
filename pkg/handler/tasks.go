@@ -49,17 +49,34 @@ func (h *Handler) getAllTasks(c *gin.Context) {
 		return
 	}
 
-	items, err := h.services.StructTask.GetAll(userId, listId)
+	tasks, err := h.services.StructTask.GetAll(userId, listId)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, items)
+	c.JSON(http.StatusOK, tasks)
 }
 
 func (h *Handler) getTaskById(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
 
+	taskId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid list id param")
+		return
+	}
+
+	task, err := h.services.StructTask.GetById(userId, taskId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, task)
 }
 
 func (h *Handler) updateTask(c *gin.Context) {
