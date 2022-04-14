@@ -20,6 +20,7 @@ type StructList interface {
 
 type StructTask interface {
 	Create(listId int, task restful_api.StructTask) (int, error)
+	GetAll(userId, listId int) ([]restful_api.StructTask, error)
 }
 
 type StructSubtask interface {
@@ -36,5 +37,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		StructList:    NewStructListPostgres(db),
+		StructTask:    NewStructTaskPostgres(db),
 	}
 }

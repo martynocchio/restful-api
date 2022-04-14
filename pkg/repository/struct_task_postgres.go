@@ -41,3 +41,18 @@ func (r *StructTaskPostgres) Create(listId int, task restful_api.StructTask) (in
 
 	return itemId, tx.Commit()
 }
+
+func (r *StructTaskPostgres) GetAll(userId, listId int) ([]restful_api.StructTask, error) {
+	var items []restful_api.StructTask
+	query := fmt.Sprintf(`SELECT ti.id, ti.title, ti.description, ti.done FROM %s ti
+								 INNER JOIN %s li on li.task_id = ti.id
+								 INNER JOIN %s ul on ul.list_id = li.list_id
+								 WHERE li.list_id = $1 AND ul.user_id = $2`,
+		structTaskTable, listsTasksTable, usersListsTable)
+
+	if err := r.db.Select(&items, query, listId, userId); err != nil {
+		return nil, err
+	}
+
+	return items, nil
+}

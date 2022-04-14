@@ -25,3 +25,7 @@ func (s *StructTaskService) Create(userId, listId int, task restful_api.StructTa
 
 	return s.repo.Create(listId, task)
 }
+
+func (s *StructTaskService) GetAll(userId, listId int) ([]restful_api.StructTask, error) {
+	return s.repo.GetAll(userId, listId)
+}

@@ -21,6 +21,7 @@ type StructList interface {
 
 type StructTask interface {
 	Create(userId, listId int, task restful_api.StructTask) (int, error)
+	GetAll(userId, listId int) ([]restful_api.StructTask, error)
 }
 
 type StructSubtask interface {
@@ -37,5 +38,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		StructList:    NewStructListService(repos.StructList),
+		StructTask:    NewStructTaskService(repos.StructTask, repos.StructList),
 	}
 }
