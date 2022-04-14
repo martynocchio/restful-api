@@ -15,6 +15,8 @@ type StructList interface {
 	Create(userId int, list restful_api.StructList) (int, error)
 	GetAll(userId int) ([]restful_api.StructList, error)
 	GetById(userId, listId int) (restful_api.StructList, error)
+	Update(userId, listId int, input restful_api.UpdateListInput) error
+	Delete(userId, listId int) error
 }
 
 type StructTask interface {

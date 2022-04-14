@@ -3,7 +3,9 @@ package repository
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
 	restful_api "restful-api"
+	"strings"
 )
 
 type StructListPostgres struct {
@@ -56,4 +58,44 @@ func (r *StructListPostgres) GetById(userId, listId int) (restful_api.StructList
 	err := r.db.Get(&list, query, userId, listId)
 
 	return list, err
+}
+
+func (r *StructListPostgres) Delete(userId, listId int) error {
+	query := fmt.Sprintf(`DELETE FROM %s tl USING %s ul WHERE tl.id = ul.list_id AND ul.user_id = $1 
+						AND ul.list_id = $2`, structListTable, usersListsTable)
+
+	_, err := r.db.Exec(query, userId, listId)
+	return err
+}
+
+func (r *StructListPostgres) Update(userId, listId int, input restful_api.UpdateListInput) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+
+	if input.Title != nil {
+		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
+		args = append(args, *input.Title)
+		argId++
+	}
+
+	if input.Description != nil {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, *input.Description)
+		argId++
+	}
+
+	setQuery := strings.Join(setValues, ", ")
+
+	query := fmt.Sprintf(`UPDATE %s tl SET %s FROM %s ul
+								WHERE tl.id = ul.list_id AND
+								ul.list_id=$%d AND ul.user_id=$%d`,
+		structListTable, setQuery, usersListsTable, argId, argId+1)
+	args = append(args, listId, userId)
+
+	logrus.Debugf("updateQuery: %s", query)
+	logrus.Debugf("args: %s", args)
+
+	_, err := r.db.Exec(query, args...)
+	return err
 }

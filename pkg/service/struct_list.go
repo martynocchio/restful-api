@@ -24,3 +24,14 @@ func (s *StructListService) GetAll(userId int) ([]restful_api.StructList, error)
 func (s *StructListService) GetById(userId, listId int) (restful_api.StructList, error) {
 	return s.repo.GetById(userId, listId)
 }
+
+func (s *StructListService) Delete(userId, listId int) error {
+	return s.repo.Delete(userId, listId)
+}
+
+func (s *StructListService) Update(userId, listId int, input restful_api.UpdateListInput) error {
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, listId, input)
+}
