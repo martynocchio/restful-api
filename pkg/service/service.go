@@ -23,6 +23,7 @@ type StructTask interface {
 	Create(userId, listId int, task restful_api.StructTask) (int, error)
 	GetAll(userId, listId int) ([]restful_api.StructTask, error)
 	GetById(userId, taskId int) (restful_api.StructTask, error)
+	Delete(userId, taskId int) error
 }
 
 type StructSubtask interface {

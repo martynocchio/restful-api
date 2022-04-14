@@ -71,3 +71,12 @@ func (r *StructTaskPostgres) GetById(userId, taskId int) (restful_api.StructTask
 
 	return task, nil
 }
+
+func (r *StructTaskPostgres) Delete(userId, taskId int) error {
+	query := fmt.Sprintf(`DELETE FROM %s ti USING %s li, %s ul
+								WHERE ti.id = li.task_id AND li.list_id = ul.list_id
+								AND ul.user_id = $1 AND ti.id = $2`,
+		structTaskTable, listsTasksTable, usersListsTable)
+	_, err := r.db.Exec(query, userId, taskId)
+	return err
+}

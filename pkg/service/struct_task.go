@@ -33,3 +33,7 @@ func (s *StructTaskService) GetAll(userId, listId int) ([]restful_api.StructTask
 func (s *StructTaskService) GetById(userId, taskId int) (restful_api.StructTask, error) {
 	return s.repo.GetById(userId, taskId)
 }
+
+func (s *StructTaskService) Delete(userId, taskId int) error {
+	return s.repo.Delete(userId, taskId)
+}
