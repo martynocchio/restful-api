@@ -19,6 +19,7 @@ type StructList interface {
 }
 
 type StructTask interface {
+	Create(listId int, task restful_api.StructTask) (int, error)
 }
 
 type StructSubtask interface {
